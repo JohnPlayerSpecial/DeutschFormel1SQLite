@@ -249,7 +249,12 @@ def main():
 	schedule.every(60).minutes.do( get_nth_article )
 	get_nth_article()
 	while True:
-		get_new_Users()
-		schedule.run_pending()
-
+		try:
+			get_new_Users()
+			schedule.run_pending()
+		except NetworkError:
+			#print("ADSL")
+			time.sleep(10)
+		except Unauthorized:
+			update_id += 1
 main()

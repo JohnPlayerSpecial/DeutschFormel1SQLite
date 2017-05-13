@@ -1,7 +1,0 @@
-feedparser==5.2.1
-gTTS==1.1.8
-mtranslate==1.6
-python_telegram_bot==4.2.0
-telegraphapi==0.5
-beautifulsoup4==4.5.3
-telegram==0.0.1

@@ -246,7 +246,7 @@ def main():
 	load_RSS_Feed_DB()
 	load_chat_id()
 	#print(chat_id_List)
-	schedule.every(20).minutes.do( get_nth_article )
+	schedule.every(1).minutes.do( get_nth_article )
 	get_nth_article()
 	while True:
 		try:

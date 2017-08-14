@@ -47,17 +47,17 @@ def insert_RSS_Feed_DB():
 	url = ('http://www.motorsport-total.com/rss_f1.xml',)
 	cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
 	
-	url = ('http://www.motorsport-total.com/rss_formelsport_FE.xml',)
-	cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
+	#url = ('http://www.motorsport-total.com/rss_formelsport_FE.xml',)
+	#cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
 	
-	url = ('http://www.motorsport-total.com/rss_usracing_IndyCar.xml',)
-	cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
-	
-	url = ('http://www.motorsport-total.com/rss_motorrad_MGP.xml',)
-	cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
+	#url = ('http://www.motorsport-total.com/rss_usracing_IndyCar.xml',)
+	#cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
 	
 	url = ('http://www.motorsport-total.com/rss_motorrad_MGP.xml',)
 	cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
+	
+	#url = ('http://www.motorsport-total.com/rss_motorrad_MGP.xml',)
+	#cursor.execute("INSERT OR IGNORE INTO feed VALUES (?)",url)
 	
 	conn.commit()
 	conn.close()
@@ -246,7 +246,7 @@ def main():
 	load_RSS_Feed_DB()
 	load_chat_id()
 	#print(chat_id_List)
-	schedule.every(60).minutes.do( get_nth_article )
+	schedule.every(20).minutes.do( get_nth_article )
 	get_nth_article()
 	while True:
 		try:

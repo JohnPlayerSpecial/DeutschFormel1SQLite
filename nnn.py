@@ -13,6 +13,7 @@ import datetime
 import os
 import threading
 import traceback
+import postgresql
 
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")

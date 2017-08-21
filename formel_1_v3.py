@@ -88,7 +88,7 @@ def get_nth_article():
 		print(feed[0])
 		print("aieie")
 		print(type(feed[0]))
-		entries = feedparser.parse(  feed[0]  ).entries
+		entries = feedparser.parse(  str(feed[0])  ).entries
 		for i in reversed( range(10) ):
 			try:
 				url = entries[i].link

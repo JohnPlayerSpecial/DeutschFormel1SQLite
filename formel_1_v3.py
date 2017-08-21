@@ -77,8 +77,17 @@ def get_nth_article():
 	cursor.execute("""SELECT * FROM url """)
 	conn.commit()
 	allUrl = list( cursor.fetchall() )
+	print("aieie")
+	print(allRssFeed)
+	print("aieie")
 	for feed in allRssFeed:
-		entries = feedparser.parse( str( feed[0] ) ).entries
+		print("aieie")
+		print(feed)
+		print("aieie")
+		print("aieie")
+		print(feed[0])
+		print("aieie")
+		entries = feedparser.parse(  feed[0]  ).entries
 		for i in reversed( range(10) ):
 			try:
 				url = entries[i].link

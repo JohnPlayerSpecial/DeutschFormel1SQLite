@@ -49,11 +49,11 @@ def init_DB():
 	
 	
 	
-	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(100) unique );")
+	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(300) unique );")
 	ps()          
 	ps = db.prepare("CREATE TABLE IF NOT EXISTS feed (id serial PRIMARY KEY, url varchar(100) unique);")
 	ps()
-	ps = db.prepare("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, chat_id int unique, name varchar(50), time_added varchar(20));")
+	ps = db.prepare("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, chat_id int unique, name varchar(70), time_added varchar(20));")
 	ps()
 	db.close()
 

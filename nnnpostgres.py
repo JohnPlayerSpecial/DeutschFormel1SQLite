@@ -38,16 +38,16 @@ def init_DB():
 	global STRING_DB
 	global EXECUTED_AT_LEAST_ONE_TIME
 	db = postgresql.open(STRING_DB)
-	
-	if int(EXECUTED_AT_LEAST_ONE_TIME) == 1:
-		ps = db.prepare("DROP TABLE IF EXISTS url;")
-		ps()  
-		ps = db.prepare("DROP TABLE IF EXISTS feed;")
-		ps()  
-		ps = db.prepare("DROP TABLE IF EXISTS users;")
-		ps() 
-	else:
-		os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = "1"
+	os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = '1'
+	#if int(EXECUTED_AT_LEAST_ONE_TIME) == 1:
+	ps = db.prepare("DROP TABLE IF EXISTS url;")
+	ps()  
+	ps = db.prepare("DROP TABLE IF EXISTS feed;")
+	ps()  
+	ps = db.prepare("DROP TABLE IF EXISTS users;")
+	ps() 
+	#else:
+	#	os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = "1"
 	
 	
 	

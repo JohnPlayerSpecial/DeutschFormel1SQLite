@@ -121,7 +121,7 @@ def get_nth_article():
 				######
 				#MULTITHREADING
 				######
-				multithreading = 0
+				multithreading = 1
 				if multithreading:
 					threading.Thread(target=sendTelegraph, args=(articleImage, articleTitle, boldArticleContent, articleUrl, string, feed)).start()
 				else:
@@ -192,7 +192,17 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 		except:
 			pass
 	html_content = (imageLink + html_content).replace(TOKEN_TRANSLATE,"")
-	page = telegraph.createPage( title = articleTitle,  html_content= html_content, author_name="f126ck" )
+	fatto = 1
+	tentativo = 0
+	while(fatto==1 and tentativo < 3):
+		try:
+			page = telegraph.createPage( title = articleTitle,  html_content= html_content, author_name="f126ck" )
+			fatto = 0
+			tentativo = tentativo + 1
+		except Exception:
+			time.sleep(1)
+			fatto = 1
+			tentativo = tentativo + 1
 	url2send = 'http://telegra.ph/' + page['path']
 	catIntro = getCategoryIntro( feed )
 	

@@ -191,7 +191,8 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			i = i + 1
 		except:
 			pass
-	html_content = (imageLink + html_content).replace(TOKEN_TRANSLATE.strip(),"")
+	STRIPPED = TOKEN_TRANSLATE.strip()
+	html_content = (imageLink + html_content).replace(STRIPPED,"")
 	fatto = 1
 	tentativo = 0
 	while(fatto==1 and tentativo < 3):

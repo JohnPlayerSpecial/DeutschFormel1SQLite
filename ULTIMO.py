@@ -201,7 +201,7 @@ def main():
 	load_RSS_Feed_DB()
 	load_User_Me()
 	load_chat_id()
-	schedule.every(20).minutes.do( get_nth_article )
+	schedule.every(60).seconds.do( get_nth_article )
 	#start = time.time()
 	get_nth_article()
 	#end = time.time()

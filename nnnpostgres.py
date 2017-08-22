@@ -180,7 +180,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	                                                # se non c'è spazio non traduce prima parola (giustamente)
 	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
 	stringBulkTranslated = translate( stringToTranslate, "en","de" )
-	paragraphTranslated = stringBulkTranslated.split(TOKEN_TRANSLATE)
+	paragraphTranslated = [item.replace(TOKEN_TRANSLATE,"") for item in stringBulkTranslated.split(TOKEN_TRANSLATE)]
 	i = 0
 	for paragraph in stringList:
 		try:

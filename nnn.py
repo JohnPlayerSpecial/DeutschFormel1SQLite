@@ -16,6 +16,11 @@ import traceback
 #import postgresql
 import urllib.request
 import requests
+from boto.s3.connection import S3Connection
+
+s3 = S3Connection(os.environ['TELEGRAM_TOKEN'], os.environ['ALERT_TOKEN'])
+print(s3)
+print(type(s3))
 
 url = 'https://api.heroku.com/apps/motosporttotal/config-vars'
 headers = {'Accept': 'application/vnd.heroku+json', 'version' : 3}

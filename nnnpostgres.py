@@ -225,7 +225,7 @@ def load_User_Me():
 	global STRING_DB
 	global MY_CHAT_ID_TELEGRAM
 	db = postgresql.open(STRING_DB)
-	ps = db.prepare("INSERT INTO users (chat_id,name,time_added) VALUES ('{}','{}','{}')".format(MY_CHAT_ID_TELEGRAM,"me","20170821 22:54") )
+	ps = db.prepare("INSERT INTO users (chat_id,name,time_added) VALUES ('{}','{}','{}') ON CONFLICT (url) DO NOTHING;".format(MY_CHAT_ID_TELEGRAM,"me","20170821 22:54") )
 	ps()
 	db.close()
 	

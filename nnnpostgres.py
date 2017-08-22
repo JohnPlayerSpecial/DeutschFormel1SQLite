@@ -174,7 +174,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	except:
 		pass
 	stringList = re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", stringToBetranslated)
-	TOKEN_TRANSLATE = ' 9992362973473279238732489 ' # token che serve per dividere i paragrafi e correttamente associarli ad ogni sua traduzione... non 
+	TOKEN_TRANSLATE = '\n\n \n9992362973473279238732489\n \n\n' # token che serve per dividere i paragrafi e correttamente associarli ad ogni sua traduzione... non 
 	                                                # basta mettere il punto perchè a volte viene tradotto ... con una virgola! 
 	                                                # NB spazio numero casuale spazio
 	                                                # se non c'è spazio non traduce prima parola (giustamente)

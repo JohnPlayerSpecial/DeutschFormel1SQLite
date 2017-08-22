@@ -18,7 +18,7 @@ STRING_DB = os.environ['DATABASE_URL'].replace("postgres","pq")
 TOKEN_ALERT = os.environ['TOKEN_ALERT']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 TELEGRAPH_ACCOUNT = os.environ['TELEGRAPH_ACCOUNT']
-MY_CHAT_ID_TELEGRAM = os.environ['MY_CHAT_ID_TELEGRAM']
+MY_CHAT_ID_TELEGRAM = int( os.environ['MY_CHAT_ID_TELEGRAM'] )
 
 bot = telegram.Bot(TOKEN_TELEGRAM)
 
@@ -200,7 +200,7 @@ def load_User_Me():
 	global STRING_DB
 	global MY_CHAT_ID_TELEGRAM
 	db = postgresql.open(STRING_DB)
-	ps = db.prepare("INSERT INTO users (chat_id) VALUES (chat_id,name,time_added) VALUES ('{}','{}','{}')".format(MY_CHAT_ID_TELEGRAM,"me","20170821 22:54") )
+	ps = db.prepare("INSERT INTO users (chat_id,name,time_added) VALUES ('{}','{}','{}')".format(MY_CHAT_ID_TELEGRAM,"me","20170821 22:54") )
 	ps()
 	db.close()
 	

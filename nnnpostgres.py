@@ -14,7 +14,7 @@ import threading
 import traceback
 import postgresql
 
-STRING_DB = os.environ['DATABASE_URL']
+STRING_DB = os.environ['DATABASE_URL'].replace("postgres","pq")
 TOKEN_ALERT = os.environ['TOKEN_ALERT']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 TELEGRAPH_ACCOUNT = os.environ['TELEGRAPH_ACCOUNT']

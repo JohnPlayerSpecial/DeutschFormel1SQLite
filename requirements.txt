@@ -8,3 +8,4 @@ beautifulsoup4==4.6.0
 telegram==0.0.1
 newspaper3k==0.1.9
 postgres==2.2.1
+py-postgresql==1.2.1

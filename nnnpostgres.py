@@ -22,6 +22,7 @@ MY_CHAT_ID_TELEGRAM = int( os.environ['MY_CHAT_ID_TELEGRAM'] )
 EXECUTED_AT_LEAST_ONE_TIME = int( os.environ['EXECUTED_AT_LEAST_ONE_TIME'] )
 bot = telegram.Bot(TOKEN_TELEGRAM)
 
+
 MY_ITALIAN_READING_PER_MINUTE = 235
 telegraph = Telegraph()
 telegraph.createAccount(TELEGRAPH_ACCOUNT)

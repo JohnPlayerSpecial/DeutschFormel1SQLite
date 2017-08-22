@@ -40,11 +40,11 @@ def init_DB():
 	
 	
 	
-	ps = db.prepare("DROP TABLE url IF EXISTS;")
+	ps = db.prepare("DROP TABLE IF EXISTS url;")
 	ps()  
-	ps = db.prepare("DROP TABLE feed IF EXISTS;")
+	ps = db.prepare("DROP TABLE IF EXISTS feed;")
 	ps()  
-	ps = db.prepare("DROP TABLE users IF EXISTS;")
+	ps = db.prepare("DROP TABLE IF EXISTS users;")
 	ps()  
 	
 	

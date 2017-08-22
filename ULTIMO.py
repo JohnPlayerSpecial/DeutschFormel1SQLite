@@ -14,7 +14,7 @@ import threading
 from postgres import Postgres
 
 #https://devcenter.heroku.com/articles/config-vars#using-foreman-and-heroku-config
-
+STRING_DB = os.environ['DATABASE_URL']
 TOKEN_ALERT = os.environ['TOKEN_ALERT']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 TELEGRAPH_ACCOUNT = os.environ['TELEGRAPH_ACCOUNT']

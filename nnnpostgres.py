@@ -19,7 +19,7 @@ TOKEN_ALERT = os.environ['TOKEN_ALERT']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 TELEGRAPH_ACCOUNT = os.environ['TELEGRAPH_ACCOUNT']
 MY_CHAT_ID_TELEGRAM = int( os.environ['MY_CHAT_ID_TELEGRAM'] )
-
+EXECUTED_AT_LEAST_ONE_TIME = int( os.environ['EXECUTED_AT_LEAST_ONE_TIME'] )
 bot = telegram.Bot(TOKEN_TELEGRAM)
 
 MY_ITALIAN_READING_PER_MINUTE = 235
@@ -36,16 +36,18 @@ except IndexError:
 
 def init_DB():
 	global STRING_DB
+	global EXECUTED_AT_LEAST_ONE_TIME
 	db = postgresql.open(STRING_DB)
 	
-	
-	
-	ps = db.prepare("DROP TABLE IF EXISTS url;")
-	ps()  
-	ps = db.prepare("DROP TABLE IF EXISTS feed;")
-	ps()  
-	ps = db.prepare("DROP TABLE IF EXISTS users;")
-	ps()  
+	if int(EXECUTED_AT_LEAST_ONE_TIME) == 1:
+		ps = db.prepare("DROP TABLE IF EXISTS url;")
+		ps()  
+		ps = db.prepare("DROP TABLE IF EXISTS feed;")
+		ps()  
+		ps = db.prepare("DROP TABLE IF EXISTS users;")
+		ps() 
+	else:
+		os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = "1"
 	
 	
 	
@@ -188,7 +190,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			i = i + 1
 		except:
 			pass
-	html_content = imageLink + html_content
+	html_content = (imageLink + html_content).replace(TOKEN_TRANSLATE,"")
 	page = telegraph.createPage( title = articleTitle,  html_content= html_content, author_name="f126ck" )
 	url2send = 'http://telegra.ph/' + page['path']
 	catIntro = getCategoryIntro( feed )

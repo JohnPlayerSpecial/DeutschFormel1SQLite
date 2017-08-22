@@ -22,12 +22,6 @@ s3 = S3Connection(os.environ['TOKEN_TELEGRAM'], os.environ['TOKEN_ALERT'])
 print(s3)
 print(type(s3))
 
-url = 'https://api.heroku.com/apps/motosporttotal/config-vars'
-headers = {'Accept': 'application/vnd.heroku+json', 'version' : 3}
-r = requests.get(url, headers=headers)
-print(r.status_code)
-print(r)
-
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")
 TOKEN_TELEGRAM = '358045589:AAH-Bzm42xxEAeGZRLwDPsmQTSNZMKqBBrU' #DeutschFormel1Bot
@@ -228,7 +222,6 @@ def main():
 	get_nth_article()
 	#end = time.time()
 	#print(end - start)
-	b
 	while True:
 		try:
 			#pass

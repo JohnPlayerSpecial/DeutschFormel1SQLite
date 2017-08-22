@@ -271,7 +271,7 @@ def main():
 	get_nth_article()
 	
 	print("main schedule")
-	schedule.every(60).seconds.do( get_nth_article )
+	schedule.every(20).minutes.do( get_nth_article )
 	
 	while True:
 		try:

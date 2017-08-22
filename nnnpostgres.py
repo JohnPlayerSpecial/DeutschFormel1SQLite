@@ -261,6 +261,7 @@ def main():
 try:
 	main()
 except Exception as e:
+	print("err ty main", e)
 	botALERT = telegram.Bot(TOKEN_ALERT)
 	text = "[!] Error:\n<b>{}:{}</b> in DeutschFormel1bot on function ".format( (type(e).__name__), e)
 	botALERT.sendMessage(chat_id=MY_CHAT_ID_TELEGRAM, text = text , parse_mode="Html")

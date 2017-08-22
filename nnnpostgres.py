@@ -124,6 +124,8 @@ def get_nth_article():
 					threading.Thread(target=sendTelegraph, args=(articleImage, articleTitle, boldArticleContent, articleUrl, string, feed)).start()
 				else:
 					sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, string, feed )
+			else:
+				continue
 				
 				
 	db.close()

@@ -127,6 +127,8 @@ def load_chat_id():
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("SELECT chat_id FROM users;")
 	chat_id_List = ps()
+	print("def load_chat_id():")
+	print(chat_id_List)
 	db.close()
 	
 def getTimeReadingString( words ):
@@ -217,13 +219,26 @@ def load_User_Me():
 	db.close()
 	
 def main():
+	print("main init db")
 	init_DB()
+	
+	print("rss feed db")
 	insert_RSS_Feed_DB()
+	
+	print("rss feed db")
 	load_RSS_Feed_DB()
+	
+	print("load user me")
 	load_User_Me()
+	print("load chat id")
 	load_chat_id()
-	schedule.every(60).seconds.do( get_nth_article )
+	
+	print("get article")
 	get_nth_article()
+	
+	print("main schedule")
+	schedule.every(60).seconds.do( get_nth_article )
+	
 	while True:
 		try:
 			schedule.run_pending()

@@ -40,7 +40,7 @@ def init_DB():
 	db.run("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(100) unique );")       
 	db.run("CREATE TABLE IF NOT EXISTS feed (id serial PRIMARY KEY, url varchar(100) unique);")
 	db.run("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, chat_id int unique, name varchar(50), time_added varchar(20));")
-	db.close()
+	#db.close()
 
 def insert_RSS_Feed_DB():
 	global STRING_DB
@@ -49,7 +49,7 @@ def insert_RSS_Feed_DB():
 	db.run("INSERT INTO feed (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
 	url = 'http://www.motorsport-total.com/rss_motorrad_MGP.xml'
 	db.run("INSERT INTO feed (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
-	db.close()
+	#db.close()
 
 def load_RSS_Feed_DB():
 	global STRING_DB
@@ -59,7 +59,7 @@ def load_RSS_Feed_DB():
 	print("def load_RSS_Feed_DB():")
 	print(allRssFeed)
 	print("def load_RSS_Feed_DB():")
-	db.close()
+	#db.close()
 	
 def get_nth_article():
 	global STRING_DB
@@ -108,7 +108,7 @@ def load_chat_id():
 	db = Postgres(STRING_DB)
 	selectList = db.all("SELECT chat_id FROM users;")
 	chat_id_List = selectList
-	db.close()
+	#db.close()
 	
 def getTimeReadingString( words ):
 	lung = len(words)
@@ -193,7 +193,7 @@ def load_User_Me():
 	global MY_CHAT_ID_TELEGRAM
 	db = Postgres(STRING_DB)
 	db.run("INSERT INTO users (chat_id,name,time_added) VALUES ('{}','{}','{}') ON CONFLICT (chat_id) DO NOTHING ;".format(MY_CHAT_ID_TELEGRAM, "@f126ck","1503407762") )
-	db.close()
+	#db.close()
 	
 def main():
 	init_DB()

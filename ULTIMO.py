@@ -11,7 +11,7 @@ import schedule
 import datetime
 import os
 import threading
-import postgresql
+from postgres import Postgres
 
 
 #https://devcenter.heroku.com/articles/config-vars#using-foreman-and-heroku-config
@@ -37,38 +37,26 @@ except IndexError:
 
 def init_DB():
 	global STRING_DB
-	db = postgresql.open(STRING_DB)
-	
-	ps = db.prepare("""CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(100) unique ) """)
-	ps() 
-	          
-	ps = db.prepare("""CREATE TABLE IF NOT EXISTS feed (id serial PRIMARY KEY, url varchar(100) unique) """)
-	ps()
-	
-	ps = db.prepare("""CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, chat_id int unique, name varchar(50), time_added varchar(20)) """)
-	ps()
-	
+	db = Postgres(STRING_DB)
+	db.run("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(100) unique );")       
+	db.run("CREATE TABLE IF NOT EXISTS feed (id serial PRIMARY KEY, url varchar(100) unique);")
+	db.run("CREATE TABLE IF NOT EXISTS users (id serial PRIMARY KEY, chat_id int unique, name varchar(50), time_added varchar(20));")
 	db.close()
 
 def insert_RSS_Feed_DB():
 	global STRING_DB
-	db = postgresql.open(STRING_DB)
-	
+	db = Postgres(STRING_DB)
 	url = 'http://www.motorsport-total.com/rss_f1.xml'
-	ps = db.prepare("INSERT INTO feed (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
-	ps()
-	
+	db.run("INSERT INTO feed (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
 	url = 'http://www.motorsport-total.com/rss_motorrad_MGP.xml'
-	ps = db.prepare("INSERT INTO feed (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
-	ps()
-	
+	db.run("INSERT INTO feed (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
 	db.close()
 
 def load_RSS_Feed_DB():
 	global STRING_DB
-	db = postgresql.open(STRING_DB)
-	ps = db.prepare("SELECT * FROM feed;" )
-	allRssFeed = [item[1] for item in ps() ]
+	db = Postgres(STRING_DB)
+	selectList = db.all("SELECT * FROM feed;" )
+	allRssFeed = [item[1] for item in selectList ]
 	print("def load_RSS_Feed_DB():")
 	print(allRssFeed)
 	print("def load_RSS_Feed_DB():")
@@ -76,9 +64,9 @@ def load_RSS_Feed_DB():
 	
 def get_nth_article():
 	global STRING_DB
-	db = postgresql.open(STRING_DB)
-	ps = db.prepare("SELECT * FROM url;")
-	allUrl = [item[1] for item in ps() ]
+	db = Postgres(STRING_DB)
+	selectList =  db.all("SELECT * FROM url;")
+	allUrl = [item[1] for item in selectList ]
 	for feed in allRssFeed:
 		print("parsing entries")
 		print(feed)
@@ -91,8 +79,7 @@ def get_nth_article():
 				continue
 			if  url not in allUrl:
 				try:
-					ps = db.prepare("INSERT INTO url (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
-					ps()
+					db.run("INSERT INTO url (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
 				except Exception as e:
 					print("excp1", e)
 				article = Article(url)
@@ -119,9 +106,9 @@ def get_nth_article():
 def load_chat_id():
 	global chat_id_List
 	global STRING_DB
-	db = postgresql.open(STRING_DB)
-	ps = db.prepare("SELECT chat_id FROM users;")
-	chat_id_List = ps()
+	db = Postgres(STRING_DB)
+	selectList = db.all("SELECT chat_id FROM users;")
+	chat_id_List = selectList
 	db.close()
 	
 def getTimeReadingString( words ):
@@ -205,9 +192,8 @@ def getCategoryIntro( feed ):
 def load_User_Me():
 	global STRING_DB
 	global MY_CHAT_ID_TELEGRAM
-	db = postgresql.open(STRING_DB)
-	ps = db.prepare("INSERT INTO users (chat_id,name,time_added) VALUES ('{}','{}','{}') ON CONFLICT (chat_id) DO NOTHING ;".format(MY_CHAT_ID_TELEGRAM, "@f126ck","1503407762") )
-	conn.commit()
+	db = Postgres(STRING_DB)
+	db.run("INSERT INTO users (chat_id,name,time_added) VALUES ('{}','{}','{}') ON CONFLICT (chat_id) DO NOTHING ;".format(MY_CHAT_ID_TELEGRAM, "@f126ck","1503407762") )
 	db.close()
 	
 def main():

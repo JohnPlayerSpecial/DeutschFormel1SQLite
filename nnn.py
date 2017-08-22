@@ -21,6 +21,10 @@ from boto.s3.connection import S3Connection
 #https://devcenter.heroku.com/articles/config-vars#using-foreman-and-heroku-config
 TOKEN_TELEGRAM = S3Connection(os.environ['TOKEN_TELEGRAM']).secret_key
 TOKEN_ALERT = S3Connection(os.environ['TOKEN_ALERT']).secret_key
+MY_CHAT_ID_TELEGRAM = S3Connection(os.environ['MY_CHAT_ID_TELEGRAM']).secret_key
+print(TOKEN_TELEGRAM)
+print(type(TOKEN_TELEGRAM))
+
 
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")

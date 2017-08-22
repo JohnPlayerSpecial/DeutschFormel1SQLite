@@ -18,7 +18,7 @@ import urllib.request
 import requests
 from boto.s3.connection import S3Connection
 
-s3 = S3Connection(os.environ['TELEGRAM_TOKEN'], os.environ['ALERT_TOKEN'])
+s3 = S3Connection(os.environ['TOKEN_TELEGRAM'], os.environ['TOKEN_ALERT'])
 print(s3)
 print(type(s3))
 

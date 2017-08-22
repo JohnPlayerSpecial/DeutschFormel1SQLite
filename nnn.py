@@ -19,8 +19,11 @@ import requests
 from boto.s3.connection import S3Connection
 
 s3 = S3Connection(os.environ['TOKEN_TELEGRAM'], os.environ['TOKEN_ALERT'])
+print("----------------")
 print(s3)
 print(type(s3))
+print(dir(s3))
+print("----------------")
 
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")

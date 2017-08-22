@@ -121,11 +121,12 @@ def get_nth_article():
 				######
 				#MULTITHREADING
 				######
-				multithreading = 1
+				multithreading = 0
 				if multithreading:
 					threading.Thread(target=sendTelegraph, args=(articleImage, articleTitle, boldArticleContent, articleUrl, string, feed)).start()
 				else:
 					sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, string, feed )
+					time.sleep(1) # introduced because telegraphapi.exceptions.TelegraphAPIException: Error while executing createPage: FLOOD_WAIT_3
 			else:
 				continue
 				

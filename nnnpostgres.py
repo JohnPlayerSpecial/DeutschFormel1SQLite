@@ -227,7 +227,7 @@ def main():
 	while True:
 		try:
 			schedule.run_pending()
-			print("attempt")
+			time.sleep(10)
 		except NetworkError:
 			time.sleep(10)
 		except Unauthorized:

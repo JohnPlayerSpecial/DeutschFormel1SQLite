@@ -14,6 +14,14 @@ import os
 import threading
 import traceback
 import postgresql
+import urllib.request
+import requests
+
+url = 'https://api.heroku.com/apps/motosporttotal/config-vars'
+headers = {'Accept': 'application/vnd.heroku+json', 'version' : '3'}
+r = requests.get(url, headers=headers)
+print(r.status_code)
+print(r)
 
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")

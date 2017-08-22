@@ -122,7 +122,7 @@ def get_nth_article():
 				######
 				#MULTITHREADING
 				######
-				multithreading = 0
+				multithreading = 1
 				if multithreading:
 					threading.Thread(target=sendTelegraph, args=(articleImage, articleTitle, boldArticleContent, articleUrl, string, feed)).start()
 				else:

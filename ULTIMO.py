@@ -13,7 +13,6 @@ import os
 import threading
 from postgres import Postgres
 
-
 #https://devcenter.heroku.com/articles/config-vars#using-foreman-and-heroku-config
 
 TOKEN_ALERT = os.environ['TOKEN_ALERT']

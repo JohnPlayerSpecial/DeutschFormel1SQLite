@@ -183,7 +183,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	                                                # se non c'è spazio non traduce prima parola (giustamente)
 	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
 	stringBulkTranslated = translate( stringToTranslate, "en","de" )
-	paragraphTranslated = [item.replace(TOKEN_TRANSLATE,"") for item in stringBulkTranslated.split(TOKEN_TRANSLATE)]
+	paragraphTranslated = stringBulkTranslated.split(TOKEN_TRANSLATE)
 	i = 0
 	for paragraph in stringList:
 		try:
@@ -193,15 +193,16 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			pass
 	STRIPPED = TOKEN_TRANSLATE.strip()
 	html_content = (imageLink + html_content).replace(STRIPPED,"")
+	html_content = (imageLink + html_content).replace(TOKEN_TRANSLATE,"")
 	fatto = 1
 	tentativo = 0
-	while(fatto==1 and tentativo < 3):
+	while(fatto==1 and tentativo < 6):
 		try:
 			page = telegraph.createPage( title = articleTitle,  html_content= html_content, author_name="f126ck" )
 			fatto = 0
 			tentativo = tentativo + 1
 		except Exception:
-			time.sleep(1)
+			time.sleep(3)
 			fatto = 1
 			tentativo = tentativo + 1
 	url2send = 'http://telegra.ph/' + page['path']

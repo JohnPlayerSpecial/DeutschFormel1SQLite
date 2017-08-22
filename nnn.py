@@ -23,6 +23,10 @@ print("----------------")
 print(s3)
 print(type(s3))
 print(dir(s3))
+
+print(s3.access_key)
+print(s3.secret_key)
+
 print("----------------")
 
 telegraph = Telegraph()

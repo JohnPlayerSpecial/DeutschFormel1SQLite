@@ -1,1 +1,1 @@
-worker: python ULTIMO.py
+worker: python nnnpostgres.py

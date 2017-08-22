@@ -183,7 +183,16 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	                                                # NB spazio numero casuale spazio
 	                                                # se non c'è spazio non traduce prima parola (giustamente)
 	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
-	stringBulkTranslated = translate( stringToTranslate, "en","de" )
+	try:
+		stringBulkTranslated = translate( stringToTranslate, "en","de" )
+	except:
+		text = articleUrl
+		for chat_id in chat_id_List:
+			try:
+				bot.sendMessage(parse_mode = "Html", text =  text, chat_id = chat_id)
+			except:
+				pass
+		return
 	paragraphTranslated = stringBulkTranslated.split(TOKEN_TRANSLATE)
 	i = 0
 	for paragraph in stringList:

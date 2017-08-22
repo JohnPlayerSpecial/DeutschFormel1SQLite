@@ -73,15 +73,15 @@ def insert_RSS_Feed_DB():
 def load_RSS_Feed_DB():
 	global STRING_DB
 	db = postgresql.open(STRING_DB)
-	ps = db.prepare("SELECT url FROM feed;")
-	allRssFeed = ps()
+	ps = db.prepare("SELECT * FROM feed;")
+	allRssFeed = [ item[1] for item in ps() ]
 	db.close()
 	
 def get_nth_article():
 	global STRING_DB
 	db = postgresql.open(STRING_DB)
-	ps = db.prepare("""SELECT url FROM url;""")
-	allUrl = ps()
+	ps = db.prepare("""SELECT * FROM url;""")
+	allUrl = [ item[1] for item in ps() ]
 	for feed in allRssFeed:
 		print("parsing entries")
 		print(feed)
@@ -125,8 +125,8 @@ def load_chat_id():
 	global chat_id_List
 	global STRING_DB
 	db = postgresql.open(STRING_DB)
-	ps = db.prepare("SELECT chat_id FROM users;")
-	chat_id_List = ps()
+	ps = db.prepare("SELECT * FROM users;")
+	chat_id_List = [ item[1] for item in ps() ]
 	print("def load_chat_id():")
 	print(chat_id_List)
 	db.close()

@@ -28,7 +28,7 @@ telegraph.createAccount(TELEGRAPH_ACCOUNT)
 chat_id_List = []
 allUrl = []
 allRssFeed = []
-
+#funziona?
 try:
     update_id = bot.getUpdates()[0].update_id
 except IndexError:

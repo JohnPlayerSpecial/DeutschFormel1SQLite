@@ -3,7 +3,7 @@ from newspaper import Article
 import feedparser
 from telegraphapi import Telegraph
 import telegram
-from telegram.error import *
+from telegram.error import Unauthorized, NetworkError
 from mtranslate import translate
 import time
 import re
@@ -263,6 +263,9 @@ try:
 	main()
 except Exception as e:
 	print("err ty main", e)
-	botALERT = telegram.Bot(TOKEN_ALERT)
-	text = "[!] Error:\n<b>{}:{}</b> in DeutschFormel1bot on function ".format( (type(e).__name__), e)
-	botALERT.sendMessage(chat_id=MY_CHAT_ID_TELEGRAM, text = text , parse_mode="Html")
+	try:
+		botALERT = telegram.Bot(TOKEN_ALERT)
+		text = "[!] Error:\n<b>{}:{}</b> in DeutschFormel1bot on function ".format( (type(e).__name__), e)
+		botALERT.sendMessage(chat_id=MY_CHAT_ID_TELEGRAM, text = text , parse_mode="Html")
+	except Exception as e:
+		print("VAFFANCULO", e)

@@ -37,6 +37,18 @@ except IndexError:
 def init_DB():
 	global STRING_DB
 	db = postgresql.open(STRING_DB)
+	
+	
+	
+	ps = db.prepare("DROP TABLE url IF EXISTS;")
+	ps()  
+	ps = db.prepare("DROP TABLE feed IF EXISTS;")
+	ps()  
+	ps = db.prepare("DROP TABLE users IF EXISTS;")
+	ps()  
+	
+	
+	
 	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(100) unique );")
 	ps()          
 	ps = db.prepare("CREATE TABLE IF NOT EXISTS feed (id serial PRIMARY KEY, url varchar(100) unique);")

@@ -13,6 +13,7 @@ import os
 import threading
 import traceback
 import postgresql
+import goslate
 
 STRING_DB = os.environ['DATABASE_URL'].replace("postgres","pq")
 TOKEN_ALERT = os.environ['TOKEN_ALERT']
@@ -184,7 +185,10 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	                                                # se non c'è spazio non traduce prima parola (giustamente)
 	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
 	try:
-		stringBulkTranslated = translate( stringToTranslate, "en","de" )
+		gs = goslate.Goslate()
+		
+		stringBulkTranslated = gs.translate(stringToTranslate, 'en')
+		#stringBulkTranslated = translate( stringToTranslate, "en","de" )
 	except:
 		text = articleUrl
 		for chat_id in chat_id_List:

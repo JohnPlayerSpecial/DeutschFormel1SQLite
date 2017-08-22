@@ -22,12 +22,13 @@ from boto.s3.connection import S3Connection
 
 TOKEN_ALERT = os.environ['TOKEN_ALERT']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
+TELEGRAPH_ACCOUNT = os.environ['TELEGRAPH_ACCOUNT']
+
 
 telegraph = Telegraph()
-telegraph.createAccount("PythonTelegraphAPI")
+telegraph.createAccount(TELEGRAPH_ACCOUNT)
  
 MY_ITALIAN_READING_PER_MINUTE = 235
-DATABASE_NAME = 'Formel1.db'
 bot = telegram.Bot(TOKEN_TELEGRAM)
 chat_id_List = []
 allUrl = []

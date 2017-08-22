@@ -72,6 +72,7 @@ def insert_RSS_Feed_DB():
 	
 def load_RSS_Feed_DB():
 	global STRING_DB
+	global allRssFeed
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("SELECT * FROM feed;")
 	allRssFeed = [ item[1] for item in ps() ]
@@ -83,7 +84,7 @@ def get_nth_article():
 	global STRING_DB
 	global allRssFeed
 	db = postgresql.open(STRING_DB)
-	ps = db.prepare("""SELECT * FROM url;""")
+	ps = db.prepare("SELECT * FROM url;")
 	allUrl = [ item[1] for item in ps() ]
 	print("in get art func")
 	print(allRssFeed)

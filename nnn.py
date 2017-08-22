@@ -18,20 +18,13 @@ import urllib.request
 import requests
 from boto.s3.connection import S3Connection
 
-s3 = S3Connection(os.environ['TOKEN_TELEGRAM'], os.environ['TOKEN_ALERT'])
-print("----------------")
-print(s3)
-print(type(s3))
-print(dir(s3))
-
-print(s3.access_key)
-print(s3.secret_key)
-
-print("----------------")
+#https://devcenter.heroku.com/articles/config-vars#using-foreman-and-heroku-config
+TOKEN_TELEGRAM = S3Connection(os.environ['TOKEN_TELEGRAM']).secret_key
+TOKEN_ALERT = S3Connection(os.environ['TOKEN_ALERT']).secret_key
 
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")
-TOKEN_TELEGRAM = '358045589:AAH-Bzm42xxEAeGZRLwDPsmQTSNZMKqBBrU' #DeutschFormel1Bot
+ 
 MY_ITALIAN_READING_PER_MINUTE = 235
 DATABASE_NAME = 'Formel1.db'
 bot = telegram.Bot(TOKEN_TELEGRAM)
@@ -240,7 +233,6 @@ def main():
 try:
 	main()
 except Exception as e:
-	TOKEN_ALERT='440851070:AAGb1zdxKqYN-j6HAfQ1VE76SP6VrHvVbuI'
 	botALERT = telegram.Bot(TOKEN_ALERT)
 	text = "[!] Error:\n<b>{}:{}</b> in DeutschFormel1bot on function ".format( (type(e).__name__), e)
 	botALERT.sendMessage(chat_id=31923577, text = text , parse_mode="Html")

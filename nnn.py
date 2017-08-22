@@ -19,20 +19,9 @@ import requests
 from boto.s3.connection import S3Connection
 
 #https://devcenter.heroku.com/articles/config-vars#using-foreman-and-heroku-config
-print()
-print("DA SOLO ", os.environ['TOKEN_ALERT'])
-print()
-s3 = S3Connection(os.environ['TOKEN_TELEGRAM'],os.environ['TOKEN_ALERT'])
-print(s3)
-print(s3.access_key)
-print(s3.secret_key)
-print(type(s3.secret_key))
-'''
-TOKEN_ALERT = S3Connection(os.environ['TOKEN_ALERT']).secret_key
-MY_CHAT_ID_TELEGRAM = S3Connection(os.environ['MY_CHAT_ID_TELEGRAM']).secret_key
-print(TOKEN_TELEGRAM)
-print(type(TOKEN_TELEGRAM))
-'''
+
+TOKEN_ALERT = os.environ['TOKEN_ALERT']
+TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 
 telegraph = Telegraph()
 telegraph.createAccount("PythonTelegraphAPI")

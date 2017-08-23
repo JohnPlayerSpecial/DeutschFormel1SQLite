@@ -179,11 +179,13 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	except:
 		pass
 	stringList = re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", stringToBetranslated)
+	'''
 	TOKEN_TRANSLATE = ' 9992362973473279238732489 ' # token che serve per dividere i paragrafi e correttamente associarli ad ogni sua traduzione... non 
 	                                                # basta mettere il punto perchè a volte viene tradotto ... con una virgola! 
 	                                                # NB spazio numero casuale spazio
 	                                                # se non c'è spazio non traduce prima parola (giustamente)
 	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
+	'''
 	try:
 		gs = goslate.Goslate()
 		
@@ -197,11 +199,14 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			except:
 				pass
 		return
+	'''
 	paragraphTranslated = stringBulkTranslated.split(TOKEN_TRANSLATE)
+	'''
 	i = 0
+	gs = goslate.Goslate() 
 	for paragraph in stringList:
 		try:
-			html_content = html_content +  '<strong>{}</strong>\n<i>{}</i>\n\n'.format(paragraph,paragraphTranslated[i])
+			html_content = html_content +  '<strong>{}</strong>\n<i>{}</i>\n\n'.format(paragraph,gs.translate(paragraph, 'en'))
 			i = i + 1
 		except:
 			pass

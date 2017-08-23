@@ -186,12 +186,17 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	                                                # se non c'è spazio non traduce prima parola (giustamente)
 	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
 	'''
+	#in
+	'''
 	try:
 		gs = goslate.Goslate()
 		
 		stringBulkTranslated = gs.translate(stringToTranslate, 'en')
 		#stringBulkTranslated = translate( stringToTranslate, "en","de" )
 	except:
+	'''
+	#in
+	'''
 		text = articleUrl
 		for chat_id in chat_id_List:
 			try:
@@ -199,6 +204,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			except:
 				pass
 		return
+	'''
 	'''
 	paragraphTranslated = stringBulkTranslated.split(TOKEN_TRANSLATE)
 	'''
@@ -210,20 +216,29 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			i = i + 1
 		except:
 			pass
-	STRIPPED = TOKEN_TRANSLATE.strip()
+	#STRIPPED = TOKEN_TRANSLATE.strip()
 	html_content = imageLink + html_content
-	html_content = html_content.replace(STRIPPED, "")
-	fatto = 1
+	#html_content = html_content.replace(STRIPPED, "")
+	fatto = 0
 	tentativo = 0
-	while(fatto==1 and tentativo < 6):
+	while(fatto==0 and tentativo < 6):
 		try:
 			page = telegraph.createPage( title = articleTitle,  html_content= html_content, author_name="f126ck" )
-			fatto = 0
+			fatto = 1
 			tentativo = tentativo + 1
 		except Exception:
 			time.sleep(3)
-			fatto = 1
+			fatto = 0
 			tentativo = tentativo + 1
+	if fatto == 0:
+		text = articleUrl
+		for chat_id in chat_id_List:
+			try:
+				bot.sendMessage(parse_mode = "Html", text =  text, chat_id = chat_id)
+			except:
+				continue
+		return
+	
 	url2send = 'http://telegra.ph/' + page['path']
 	catIntro = getCategoryIntro( feed )
 	

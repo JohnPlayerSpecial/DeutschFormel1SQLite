@@ -40,6 +40,7 @@ def init_DB():
 	global STRING_DB
 	global EXECUTED_AT_LEAST_ONE_TIME
 	db = postgresql.open(STRING_DB)
+	'''
 	os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = '1'
 	#if int(EXECUTED_AT_LEAST_ONE_TIME) == 1:
 	ps = db.prepare("DROP TABLE IF EXISTS url;")
@@ -50,7 +51,7 @@ def init_DB():
 	ps() 
 	#else:
 	#	os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = "1"
-	
+	'''
 	
 	
 	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(300) unique );")

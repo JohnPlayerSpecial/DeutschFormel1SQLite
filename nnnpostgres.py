@@ -152,7 +152,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	for paragraph in stringList:
 		try:
 			i = i + 1
-			html_content = html_content +  '<strong>[{}/{}]{}</strong>\n<i>{}</i>\n\n'.format(i,lenParagraph,paragraph,gs.translate(paragraph, 'en'))
+			html_content = html_content +  '<strong>[{}/{}]\n{}</strong>\n<i>{}</i>\n\n'.format(i,lenParagraph,paragraph,gs.translate(paragraph, 'en'))
 			
 		except:
 			pass

@@ -36,7 +36,6 @@ except IndexError:
 
 def init_DB():
 	global STRING_DB
-	global EXECUTED_AT_LEAST_ONE_TIME
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(300) unique, timestamp varchar(20) );")
 	ps()          
@@ -250,4 +249,4 @@ except Exception as e:
 		text = "[!] Error:\n<b>{}:{}</b> in DeutschFormel1bot on function ".format( (type(e).__name__), e)
 		botALERT.sendMessage(chat_id=MY_CHAT_ID_TELEGRAM, text = text , parse_mode="Html")
 	except Exception as e:
-		print("VAFFANCULO", e)
+		print("Errore Main ", e)

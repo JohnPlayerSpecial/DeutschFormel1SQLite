@@ -30,6 +30,7 @@ MY_ITALIAN_READING_PER_MINUTE = 235
 telegraph = Telegraph()
 telegraph.createAccount(TELEGRAPH_ACCOUNT)
 chat_id_List = []
+
 allUrl = []
 allRssFeed = []
 

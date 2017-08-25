@@ -158,6 +158,8 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			
 		except Exception as e:
 			print("err building paragraph",e)
+			print(articleUrl)
+			print(paragraph)
 	html_content = imageLink + html_content
 	fatto = 0
 	tentativo = 0

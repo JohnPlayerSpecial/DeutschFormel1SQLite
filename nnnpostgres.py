@@ -15,7 +15,9 @@ import os
 import threading
 import traceback
 import postgresql
-import goslate
+from textblob import TextBlob
+import textblob
+from textblob import *
 
 STRING_DB = os.environ['DATABASE_URL'].replace("postgres","pq")
 TOKEN_ALERT = os.environ['TOKEN_ALERT']
@@ -151,7 +153,8 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	for paragraph in stringList:
 		try:
 			i = i + 1
-			html_content = html_content +  '<strong>[{}/{}]\n{}</strong>\n<i>{}</i>\n\n'.format(i,lenParagraph,paragraph,gs.translate(paragraph, 'en'))
+			blob = TextBlob(paragraph)
+			html_content = html_content +  '<strong>[{}/{}]\n{}</strong>\n<i>{}</i>\n\n'.format(i,lenParagraph,paragraph, str( blob.translate(to="en") )   )
 			
 		except Exception as e:
 			print("err building paragraph",e)

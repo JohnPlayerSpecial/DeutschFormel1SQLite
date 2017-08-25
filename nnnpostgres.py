@@ -74,8 +74,6 @@ def get_nth_article():
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("SELECT * FROM url;")
 	allUrl = [ item[1] for item in ps() ]
-	print(allRssFeed)
-	print(allUrl)
 	for feed in allRssFeed:
 		entries = feedparser.parse( feed ).entries
 		for i in reversed( range(10) ):
@@ -155,8 +153,8 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			i = i + 1
 			html_content = html_content +  '<strong>[{}/{}]\n{}</strong>\n<i>{}</i>\n\n'.format(i,lenParagraph,paragraph,gs.translate(paragraph, 'en'))
 			
-		except:
-			pass
+		except Exception as e:
+			print("err building paragraph",e)
 	html_content = imageLink + html_content
 	fatto = 0
 	tentativo = 0
@@ -165,7 +163,8 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 			page = telegraph.createPage( title = articleTitle,  html_content= html_content, author_name="f126ck" )
 			fatto = 1
 			tentativo = tentativo + 1
-		except Exception:
+		except Exception as e:
+			print("error create telegraph",e)
 			time.sleep(3)
 			fatto = 0
 			tentativo = tentativo + 1
@@ -174,7 +173,8 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 		for chat_id in chat_id_List:
 			try:
 				bot.sendMessage(parse_mode = "Html", text =  text, chat_id = chat_id)
-			except:
+			except Exception as e:
+				print("error sending msg", e)
 				continue
 		return
 	
@@ -242,6 +242,8 @@ def main():
 			time.sleep(10)
 		except Unauthorized:
 			update_id += 1
+		except Exception as e:
+			print("error while true", e)
 try:
 	main()
 except Exception as e:

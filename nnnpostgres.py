@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+#@telegram-bot: @DeutschFormel1Bot
+#@author: @f126ck
 from newspaper import Article
 import feedparser
 from telegraphapi import Telegraph

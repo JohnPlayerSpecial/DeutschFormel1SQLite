@@ -20,9 +20,7 @@ TOKEN_ALERT = os.environ['TOKEN_ALERT']
 TOKEN_TELEGRAM = os.environ['TOKEN_TELEGRAM']
 TELEGRAPH_ACCOUNT = os.environ['TELEGRAPH_ACCOUNT']
 MY_CHAT_ID_TELEGRAM = int( os.environ['MY_CHAT_ID_TELEGRAM'] )
-EXECUTED_AT_LEAST_ONE_TIME = int( os.environ['EXECUTED_AT_LEAST_ONE_TIME'] )
 bot = telegram.Bot(TOKEN_TELEGRAM)
-
 
 MY_ITALIAN_READING_PER_MINUTE = 235
 telegraph = Telegraph()
@@ -30,7 +28,7 @@ telegraph.createAccount(TELEGRAPH_ACCOUNT)
 chat_id_List = []
 allUrl = []
 allRssFeed = []
-#funziona?
+
 try:
     update_id = bot.getUpdates()[0].update_id
 except IndexError:
@@ -40,21 +38,7 @@ def init_DB():
 	global STRING_DB
 	global EXECUTED_AT_LEAST_ONE_TIME
 	db = postgresql.open(STRING_DB)
-	'''
-	os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = '1'
-	#if int(EXECUTED_AT_LEAST_ONE_TIME) == 1:
-	ps = db.prepare("DROP TABLE IF EXISTS url;")
-	ps()  
-	ps = db.prepare("DROP TABLE IF EXISTS feed;")
-	ps()  
-	ps = db.prepare("DROP TABLE IF EXISTS users;")
-	ps() 
-	#else:
-	#	os.environ["EXECUTED_AT_LEAST_ONE_TIME"] = "1"
-	'''
-	
-	
-	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(300) unique );")
+	ps = db.prepare("CREATE TABLE IF NOT EXISTS url (id serial PRIMARY KEY, url varchar(300) unique, timestamp varchar(20) );")
 	ps()          
 	ps = db.prepare("CREATE TABLE IF NOT EXISTS feed (id serial PRIMARY KEY, url varchar(100) unique);")
 	ps()
@@ -81,8 +65,6 @@ def load_RSS_Feed_DB():
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("SELECT * FROM feed;")
 	allRssFeed = [ item[1] for item in ps() ]
-	print("load func")
-	print(allRssFeed)
 	db.close()
 	
 def get_nth_article():
@@ -91,12 +73,9 @@ def get_nth_article():
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("SELECT * FROM url;")
 	allUrl = [ item[1] for item in ps() ]
-	print("in get art func")
 	print(allRssFeed)
 	print(allUrl)
 	for feed in allRssFeed:
-		print("parsing entries")
-		print(feed)
 		entries = feedparser.parse( feed ).entries
 		for i in reversed( range(10) ):
 			try:
@@ -106,7 +85,8 @@ def get_nth_article():
 				continue
 			if  url not in allUrl:
 				try:
-					ps = db.prepare("INSERT INTO url (url) VALUES ('{}') ON CONFLICT (url) DO NOTHING;".format(url) )
+					timestampNow = round( datetime.datetime.now().timestamp() )
+					ps = db.prepare("INSERT INTO url (url,timestamp) VALUES ('{}','{}') ON CONFLICT (url) DO NOTHING;".format(url,timestampNow) )
 					ps()
 				except Exception as e:
 					print("excp1", e)
@@ -124,16 +104,13 @@ def get_nth_article():
 				######
 				#MULTITHREADING
 				######
-				multithreading = 1
+				multithreading = 0
 				if multithreading:
 					threading.Thread(target=sendTelegraph, args=(articleImage, articleTitle, boldArticleContent, articleUrl, string, feed)).start()
-				else:
-					sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, string, feed )
 					time.sleep(1) # introduced because telegraphapi.exceptions.TelegraphAPIException: Error while executing createPage: FLOOD_WAIT_3
-			else:
-				continue
-				
-				
+
+				else:
+					sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, string, feed )		
 	db.close()
 		
 def load_chat_id():
@@ -142,8 +119,6 @@ def load_chat_id():
 	db = postgresql.open(STRING_DB)
 	ps = db.prepare("SELECT * FROM users;")
 	chat_id_List = [ item[1] for item in ps() ]
-	print("def load_chat_id():")
-	print(chat_id_List)
 	db.close()
 	
 def getTimeReadingString( words ):
@@ -156,8 +131,6 @@ def getTimeReadingString( words ):
 
 def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, string ,feed ):
 	html_content = ""
-	boldArticleContent = boldArticleContent #+ "."
-	articleTitle = articleTitle
 	stringAll = ""
 	string = string.replace("ANZEIGE","")
 	string = string.replace(u'\xa0', u'')
@@ -172,54 +145,18 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	timeReading = getTimeReadingString( words )
 	stringToBetranslated = articleTitle + ". " + boldArticleContent + " " + string
 	imageLink = '<a href="{}" target="_blank"><img src="{}"></img></a><a href="{}" target="_blank">LINK</a>\n\n'.format(articleImage,articleImage,articleUrl)
-	
-	try:
-		#html_content = "<h4><b>" + articleTitle + "</b>" + imageLink + "</h4>" + "<b>" + boldArticleContent + "</b>\n" + "<a href=\"" + articleUrl + "\">LINK</a>\n\n" + string + "\n\n\n" + stringTranslated 
-		html_content = '<h4><b>{}</b>{}</h4><b>{}</b>\n<a href="{}">LINK</a>\n\n{}\n\n\n{}'.format(articleTitle,imageLink,boldArticleContent,articleUrl,string,stringTranslated)
-
-	except:
-		pass
 	stringList = re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", stringToBetranslated)
-	'''
-	TOKEN_TRANSLATE = ' 9992362973473279238732489 ' # token che serve per dividere i paragrafi e correttamente associarli ad ogni sua traduzione... non 
-	                                                # basta mettere il punto perchè a volte viene tradotto ... con una virgola! 
-	                                                # NB spazio numero casuale spazio
-	                                                # se non c'è spazio non traduce prima parola (giustamente)
-	stringToTranslate = TOKEN_TRANSLATE.join(stringList)
-	'''
-	#in
-	'''
-	try:
-		gs = goslate.Goslate()
-		
-		stringBulkTranslated = gs.translate(stringToTranslate, 'en')
-		#stringBulkTranslated = translate( stringToTranslate, "en","de" )
-	except:
-	'''
-	#in
-	'''
-		text = articleUrl
-		for chat_id in chat_id_List:
-			try:
-				bot.sendMessage(parse_mode = "Html", text =  text, chat_id = chat_id)
-			except:
-				pass
-		return
-	'''
-	'''
-	paragraphTranslated = stringBulkTranslated.split(TOKEN_TRANSLATE)
-	'''
 	i = 0
 	gs = goslate.Goslate() 
+	lenParagraph = len(stringList)
 	for paragraph in stringList:
 		try:
-			html_content = html_content +  '<strong>{}</strong>\n<i>{}</i>\n\n'.format(paragraph,gs.translate(paragraph, 'en'))
 			i = i + 1
+			html_content = html_content +  '<strong>[{}/{}]{}</strong>\n<i>{}</i>\n\n'.format(i,lenParagraph,paragraph,gs.translate(paragraph, 'en'))
+			
 		except:
 			pass
-	#STRIPPED = TOKEN_TRANSLATE.strip()
 	html_content = imageLink + html_content
-	#html_content = html_content.replace(STRIPPED, "")
 	fatto = 0
 	tentativo = 0
 	while(fatto==0 and tentativo < 6):
@@ -242,9 +179,7 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	
 	url2send = 'http://telegra.ph/' + page['path']
 	catIntro = getCategoryIntro( feed )
-	
 	for chat_id in chat_id_List:
-		#print("sending to chat_id: " + str(chat_id))
 		try:
 			bot.sendMessage(parse_mode = "Html", text =  "<a href=\"" + url2send + "\">" + catIntro + "</a>" +  "<b>" + articleTitle + "</b>" + "\n"  + timeReading, chat_id = chat_id)
 		except:

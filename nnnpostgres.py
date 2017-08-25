@@ -149,7 +149,6 @@ def sendTelegraph( articleImage, articleTitle, boldArticleContent, articleUrl, s
 	imageLink = '<a href="{}" target="_blank"><img src="{}"></img></a><a href="{}" target="_blank">LINK</a>\n\n'.format(articleImage,articleImage,articleUrl)
 	stringList = re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", stringToBetranslated)
 	i = 0
-	gs = goslate.Goslate() 
 	lenParagraph = len(stringList)
 	for paragraph in stringList:
 		try:
